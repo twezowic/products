@@ -25,7 +25,8 @@
         <br>
         <input type="number" name="quantity"
                placeholder="Product quantity"
-               value="{{ request.form['quantity'] }}"></input>
+               value="{{ request.form['quantity'] }}"
+               min="0">></input>
         <br>
 
         <label for="price">Price</label>

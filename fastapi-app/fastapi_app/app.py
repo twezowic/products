@@ -10,13 +10,7 @@ Schema()
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-
-# app.config['SECRET_KEY'] = 'ea8247aa00526c39376b4a34598cac655030ecfae35d5904'
-# app.config['CELERY_BROKER_URL']     = 'redis://localhost:6379/0'
-# app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
-
 celery = Celery("fastapi_app", broker="redis://redis:6379/0")
-# celery.conf.update(app.config)
 
 
 @app.get("/", response_class=HTMLResponse)
