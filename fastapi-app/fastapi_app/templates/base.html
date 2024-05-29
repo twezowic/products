@@ -33,12 +33,10 @@
     <nav>
         <a href="{{ url_for('index') }}">FastAPI App</a>
         <a href="{{ url_for('create_sync') }}">Create sync</a>
+        <a href="{{ url_for('create_async') }}">Create async</a>
     </nav>
     <hr>
     <div class="content">
-        {% for message in get_flashed_messages(request) %}
-            <div class="{{ message.category }}">{{ message.message }}</div>
-        {% endfor %}
         {% block content %} {% endblock %}
     </div>
 </body>

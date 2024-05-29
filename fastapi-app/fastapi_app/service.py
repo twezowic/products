@@ -1,4 +1,4 @@
-from .model import ProductModel
+from model import ProductModel
 
 
 class ProductService:

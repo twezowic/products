@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7.0.6
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+    volumes:
+      - "redis:/data"
+
+  fastapi_celery_redis:
+    build:
+      context: .
+      dockerfile: fastapi_app/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        cd fastapi_app
+        uvicorn app:app --host 0.0.0.0 --port 5000
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: fastapi_app/Dockerfile
+    depends_on:
+      - redis
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        cd fastapi_app
+        celery -A app.celery worker --loglevel=info
+
+volumes:
+  redis: {}
