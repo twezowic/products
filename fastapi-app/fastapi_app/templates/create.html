@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{% block title %} Add a New Product {% endblock %}</h1>
+    <form method="post">
+        <label for="name">Name</label>
+        <br>
+        <input type="text" name="name"
+               placeholder="Product name"
+               value="{{ request.form['name'] }}"></input>
+        <br>
+
+        <label for="description">Description</label>
+        <br>
+        <textarea name="description"
+                  placeholder="Product description"
+                  rows="15"
+                  cols="60"
+                  resize="none"
+                  >{{ request.form['description'] }}</textarea>
+        <br>
+
+        <label for="quantity">Quantity</label>
+        <br>
+        <input type="number" name="quantity"
+               placeholder="Product quantity"
+               value="{{ request.form['quantity'] }}"></input>
+        <br>
+
+        <label for="price">Price</label>
+        <br>
+        <input type="number" name="price"
+               placeholder="Product price"
+               value="{{ request.form['price'] }}"
+               step="0.01"
+               min="0"></input>
+        <br>
+
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

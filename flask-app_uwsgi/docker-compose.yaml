@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7.0.6
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+    volumes:
+      - "redis:/data"
+
+  flask_celery_redis:
+    build:
+      context: .
+      dockerfile: flask_app/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    command: uwsgi --http 0.0.0.0:5000 --module flask_app.app:app --processes 4 --threads 2
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: flask_app/Dockerfile
+    depends_on:
+      - redis
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    command: >
+      celery -A flask_app.app.celery worker --loglevel=info
+
+volumes:
+  redis: {}
